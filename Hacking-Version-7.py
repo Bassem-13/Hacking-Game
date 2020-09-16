@@ -39,29 +39,23 @@ def display_line(window, string, location):
     
 def embed_password(window, password, location, champs):
 
-    symbol = '-|[^@]#!ง?]}{~'            
+    symbol = '-|[^@]#!ยง?]}{~'            
     index = randint(0, champs - len(password))
-    serie_symbol = ''
+    emb_password = ''
     
-    for i in range(index):
-        serie_symbol = serie_symbol + choice(symbol)
+    for i_left in range(0, index):
+        emb_password = emb_password + choice(symbol)
+    emb_password = emb_password + password
+    
+    for i_right in range(index + len(password), champs):
+        emb_password = emb_password + choice(symbol)        
         
-    window.draw_string(serie_symbol + password, location[0], location[1])
-    location[0] = location[0] + window.get_string_width(serie_symbol + password)
-          
-    rest = champs - len(serie_symbol + password)
-    rest_symbol = ''
-        
-    for i_rest in range(rest):
-        rest_symbol = rest_symbol + choice(symbol)
-        
-    window.draw_string(rest_symbol, location[0], location[1])
+    window.draw_string(emb_password, location[0], location[1])
     window.update()
     sleep(0.3)
         
     location[0] = 0
     location[1] = location[1] + window.get_font_height()
-        
             
 def display_password(window, location):
     password_list = ['PROVIDE', 'SETTING', 'CANTINA', 'CUTTING', 'HUNTERS', 'SURVIVE', 'HEARING', 'HUNTING', 'REALIZE', 'NOTHING', 'FINDING', 'OVERLAP', 'PUTTING']   
@@ -77,7 +71,6 @@ def prompt_guess(window, location, password, nb_attempt):
     
     nb_juste = 0
     coord_hint = [window.get_width() // 2, 0]
-    
 
     while guess != 'HUNTING' and nb_attempt !=1:
         for i_lettre in range(0, len(password)):
@@ -130,5 +123,8 @@ def end_game(window, password, guess):
     window.input_string(prompt, (window.get_width() - window.get_string_width(prompt))//2, y)
     window.close()    
     
+
+
+
 
 main()
